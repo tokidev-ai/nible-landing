@@ -1,0 +1,51 @@
+---
+import Device from './Device.astro';
+import Icon from '../ui/Icon.astro';
+
+const stats = [{ value: '9', label: 'citas' }, { value: 'Bs 495', label: 'gastado' }, { value: '0', label: 'no vino' }];
+const history = [
+  { service: 'Corte + barba', date: '02 may', pro: 'Marco', price: '60' },
+  { service: 'Corte clásico', date: '11 abr', pro: 'Luis', price: '45' },
+  { service: 'Corte + barba', date: '20 mar', pro: 'Marco', price: '60' },
+];
+---
+<Device>
+  <div style="padding:8px 24px 28px">
+    <span style="width:44px;height:44px;display:grid;place-items:center;border:1px solid #E1E4ED;background:#FFFFFF;border-radius:999px;color:#131C47"><Icon name="arrow-left-02" size={20} /></span>
+    <div style="display:flex;align-items:center;gap:14px;margin-top:20px">
+      <span style="width:64px;height:64px;display:grid;place-items:center;border-radius:999px;background:#131C47;color:#FFFDF5;font-family:'Comfortaa',sans-serif;font-size:20px;font-weight:600">CM</span>
+      <span style="flex:1">
+        <span style="display:block;font-family:'Comfortaa',sans-serif;font-size:22px;font-weight:600;color:#131C47">Camila Mendoza</span>
+        <span style="display:block;font-size:14px;color:#7B8299">+591 712 34 567</span>
+      </span>
+    </div>
+    <div style="display:flex;gap:8px;margin-top:18px">
+      <span style="flex:1;display:flex;align-items:center;justify-content:center;gap:8px;height:48px;border:1.5px solid #E1E4ED;border-radius:14px;background:#FFFFFF;color:#131C47;font-size:14px;font-weight:500"><Icon name="message-text" size={18} />WhatsApp</span>
+      <span style="flex:1;display:flex;align-items:center;justify-content:center;gap:8px;height:48px;border-radius:14px;background:#3E62D8;color:#FFFDF5;font-size:14px;font-weight:500"><Icon name="calendar-add" size={18} />Nueva cita</span>
+    </div>
+    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:16px">
+      {stats.map((s) => (
+        <div style="padding:14px 12px;border:1px solid #E1E4ED;border-radius:16px;background:#FFFFFF;text-align:center">
+          <span style="display:block;font-family:'Comfortaa',sans-serif;font-size:20px;font-weight:600;color:#131C47">{s.value}</span>
+          <span style="display:block;margin-top:2px;font-size:11px;color:#7B8299">{s.label}</span>
+        </div>
+      ))}
+    </div>
+    <span style="display:block;margin:24px 0 10px;font-family:'Comfortaa',sans-serif;font-size:17px;font-weight:600;color:#131C47">Historial</span>
+    <div style="display:flex;flex-direction:column;gap:10px">
+      {history.map((h) => (
+        <div style="display:flex;align-items:center;gap:12px;padding:14px;border:1px solid #E1E4ED;border-radius:16px;background:#FFFFFF">
+          <span style="flex:1">
+            <span style="display:block;font-size:14px;font-weight:500;color:#131C47">{h.service}</span>
+            <span style="display:block;font-size:12px;color:#7B8299">{h.date} · {h.pro}</span>
+          </span>
+          <span style="white-space:nowrap;font-family:'Comfortaa',sans-serif;font-size:14px;font-weight:600;color:#3E4463">Bs {h.price}</span>
+        </div>
+      ))}
+    </div>
+    <div style="margin-top:16px;padding:16px;border:1px solid #E1E4ED;border-radius:16px;background:#FAF7EC">
+      <span style="display:block;font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:#7B8299">Nota interna</span>
+      <span style="display:block;margin:8px 0 0;font-size:14px;line-height:1.55;color:#3E4463">Prefiere a Marco. Corte con tijera, sin máquina en los costados.</span>
+    </div>
+  </div>
+</Device>

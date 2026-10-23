@@ -1,0 +1,24 @@
+---
+import Logo from '../ui/Logo.astro';
+import Button from '../ui/Button.astro';
+---
+<header class="header">
+  <div class="container inner">
+    <a href="/" aria-label="Nible, inicio"><Logo height={28} loading="eager" /></a>
+    <nav aria-label="Principal">
+      <a href="#funciones">Funciones</a>
+      <a href="#empezar">Cómo empezar</a>
+      <a href="#precios">Precios</a>
+      <Button href="#prueba" size="sm">Probar gratis</Button>
+    </nav>
+  </div>
+</header>
+
+<style>
+  .header{position:relative;z-index:10;background:var(--nible-cream);border-bottom:1px solid var(--border-subtle)}
+  .inner{padding-top:12px;padding-bottom:12px;display:flex;align-items:center;justify-content:space-between;gap:16px}
+  nav{display:flex;align-items:center;gap:clamp(12px,2.4vw,28px)}
+  nav > a:not(.btn){font-size:14px;color:var(--navy-700);white-space:nowrap;transition:color .15s ease}
+  nav > a:not(.btn):hover{color:var(--blue-500)}
+  @media (max-width: 560px){ nav > a:not(.btn){display:none} }
+</style>

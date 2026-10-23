@@ -1,0 +1,44 @@
+---
+import Icon from '../ui/Icon.astro';
+
+const ITEMS = [
+  { icon: 'tag-right', t: 'Servicios', d: 'Precio y duración. Apaga uno y sale de tu link.' },
+  { icon: 'clock', t: 'Horarios', d: 'Días abiertos y cerrados, sin mover citas tomadas.' },
+  { icon: 'calendar-remove', t: 'Bloqueos', d: 'Almuerzo, feriado o un día libre en un toque.' },
+  { icon: 'profile-2user', t: 'Equipo', d: 'Cada profesional con su agenda y sus clientes.' },
+  { icon: 'notification', t: 'Recordatorios', d: 'Avisos por WhatsApp para que nadie falte.' },
+  { icon: 'chart-2', t: 'Ingresos', d: 'Tu semana y los servicios que más venden.' },
+];
+---
+<section class="more" data-screen-label="Más pantallas">
+  <div class="container">
+    <h2 data-reveal>Y lo demás, igual de simple</h2>
+    <p class="sub">Servicios, horarios, equipo e ingresos. Cada ajuste te dice qué cambia antes de guardarlo.</p>
+  </div>
+  <div class="container list-wrap">
+    <ul class="list">
+      {ITEMS.map((g) => (
+        <li data-reveal>
+          <span class="ic"><Icon name={g.icon} size={22} /></span>
+          <span class="txt">
+            <h3>{g.t}</h3>
+            <span class="d">{g.d}</span>
+          </span>
+        </li>
+      ))}
+    </ul>
+  </div>
+</section>
+
+<style>
+  .more{padding:clamp(56px,8vw,96px) 0 clamp(40px,6vw,64px)}
+  h2{margin:0;font-family:var(--font-display);font-weight:700;font-size:clamp(26px,3.2vw,36px);letter-spacing:-0.01em;color:var(--navy-900)}
+  .sub{margin:10px 0 0;max-width:520px;font-size:16px;line-height:1.6;color:var(--navy-700)}
+  .list-wrap{margin-top:36px}
+  .list{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,300px),1fr));column-gap:40px;margin:0;padding:0;list-style:none;border-top:1px solid var(--border-subtle)}
+  li{display:flex;align-items:flex-start;gap:16px;padding:22px 0;border-bottom:1px solid var(--border-subtle)}
+  .ic{flex:0 0 auto;width:44px;height:44px;display:grid;place-items:center;border-radius:14px;background:var(--blue-100);color:var(--blue-500)}
+  .txt{flex:1;min-width:0}
+  h3{display:block;margin:0;font-family:var(--font-text);font-size:16px;font-weight:500;line-height:1.6;letter-spacing:normal;color:var(--navy-900)}
+  .d{display:block;margin-top:4px;font-size:14px;line-height:1.55;color:var(--navy-700)}
+</style>

@@ -1,0 +1,86 @@
+---
+import Device from './Device.astro';
+import Icon from '../ui/Icon.astro';
+import { DAYS, SERVICES, SLOTS, TAKEN, TODAY } from './data';
+
+interface Props {
+  /** Show the "Nueva cita" bottom sheet on top of the agenda. */
+  sheet?: boolean;
+}
+
+const { sheet = false } = Astro.props;
+const agenda = ['09:00', '10:00', '11:00', '12:00', '15:00', '16:00'].map((t) => {
+  const a = TODAY.find((x) => x.time.slice(0, 2) === t.slice(0, 2));
+  return a
+    ? { time: t, title: a.client, sub: `${a.service} · Bs ${a.price}`, free: false }
+    : { time: t, title: 'Libre', sub: 'Toca para agendar', free: true };
+});
+const label = 'display:block;font-size:13px;font-weight:500;color:#3E4463';
+---
+<Device tab="bAgenda">
+  <div style="padding:8px 0 28px">
+    <div style="display:flex;align-items:center;justify-content:space-between;padding:0 24px">
+      <span style="font-family:'Comfortaa',sans-serif;font-size:26px;font-weight:600;color:#131C47">Agenda</span>
+      <span style="flex:0 0 auto;white-space:nowrap;display:flex;align-items:center;gap:6px;height:44px;padding:0 16px;border-radius:12px;background:#3E62D8;color:#FFFDF5;font-size:14px;font-weight:500">
+        <Icon name="add" size={18} />
+        Nueva cita
+      </span>
+    </div>
+    <p style="margin:6px 24px 0;font-size:14px;color:#7B8299">Mayo 2026</p>
+    <div style="display:flex;gap:8px;margin-top:16px;padding:0 24px 4px;overflow:hidden">
+      {DAYS.map((d) => {
+        const on = d.day === 14;
+        return (
+          <span style={`flex:0 0 auto;width:60px;padding:12px 0;border:1.5px solid ${on ? '#3E62D8' : '#E1E4ED'};border-radius:16px;background:${on ? '#3E62D8' : '#FFFFFF'};color:${on ? '#FFFDF5' : '#131C47'};text-align:center`}>
+            <span style="display:block;font-size:12px;opacity:.75">{d.weekday}</span>
+            <span style="display:block;margin-top:4px;font-family:'Comfortaa',sans-serif;font-size:20px;font-weight:600">{d.day}</span>
+            <span style={`display:block;margin:6px auto 0;width:6px;height:6px;border-radius:999px;background:${on ? 'rgba(255,253,245,.6)' : d.free ? '#BACC66' : '#E1E4ED'}`}></span>
+          </span>
+        );
+      })}
+    </div>
+
+    <div style="display:flex;flex-direction:column;margin-top:18px;padding:0 24px">
+      {agenda.map((r) => (
+        <div style="display:flex;gap:12px;align-items:stretch">
+          <span style="flex:0 0 auto;width:50px;padding-top:10px;font-family:'Comfortaa',sans-serif;font-size:13px;font-weight:600;color:#A2A8BE;text-align:right">{r.time}</span>
+          <span style={`flex:1;margin-bottom:8px;padding:${r.free ? '12px 14px' : '14px'};border:1px ${r.free ? 'dashed' : 'solid'} #E1E4ED;border-radius:14px;background:${r.free ? 'transparent' : '#FFFFFF'};color:${r.free ? '#A2A8BE' : '#131C47'};font-size:14px`}>
+            <span style={`display:block;font-weight:${r.free ? 400 : 500}`}>{r.title}</span>
+            <span style="display:block;font-size:12px;color:#7B8299;margin-top:2px">{r.sub}</span>
+          </span>
+        </div>
+      ))}
+    </div>
+  </div>
+
+  {sheet && (
+    <div slot="sheet" data-sheet style="position:absolute;inset:0;z-index:20;display:flex;flex-direction:column;justify-content:flex-end;background:rgba(19,28,71,.48);backdrop-filter:blur(3px)">
+      <div style="flex:1"></div>
+      <div class="nm-sheet" style="border-radius:28px 28px 0 0;background:#FFFDF5;padding:10px 24px 30px;max-height:88%;overflow:hidden">
+        <span style="display:block;width:44px;height:5px;margin:0 auto 18px;border-radius:999px;background:#E1E4ED"></span>
+        <span style="display:block;margin:0 0 18px;font-family:'Comfortaa',sans-serif;font-size:22px;font-weight:600;color:#131C47">Nueva cita</span>
+        <span style={`${label};margin-bottom:8px`}>Cliente</span>
+        <span style="display:flex;align-items:center;width:100%;height:52px;border:1.5px solid #E1E4ED;border-radius:14px;background:#FFFFFF;padding:0 16px;font-size:15px;color:#A2A8BE">Nombre o celular</span>
+        <span style={`${label};margin:16px 0 8px`}>Servicio</span>
+        <div style="display:flex;flex-wrap:wrap;gap:8px">
+          {SERVICES.map((s) => {
+            const on = s.id === 's2';
+            return <span style={`white-space:nowrap;display:flex;align-items:center;height:44px;padding:0 14px;border:1.5px solid ${on ? '#131C47' : '#E1E4ED'};border-radius:999px;background:${on ? '#131C47' : '#FFFFFF'};color:${on ? '#FFFDF5' : '#3E4463'};font-size:14px`}>{s.name}</span>;
+          })}
+        </div>
+        <span style={`${label};margin:16px 0 8px`}>Hora</span>
+        <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px">
+          {SLOTS.map((t) => {
+            const taken = TAKEN.includes(t);
+            return <span style={`height:48px;display:grid;place-items:center;border:1.5px solid transparent;border-radius:14px;background:${taken ? '#EEF0F5' : '#F5F9DE'};color:${taken ? '#A2A8BE' : '#131C47'};font-family:'Comfortaa',sans-serif;font-size:15px;font-weight:600`}>{t}</span>;
+          })}
+        </div>
+        <span style="display:grid;place-items:center;width:100%;height:56px;margin-top:20px;border-radius:14px;background:#3E62D8;color:#FFFDF5;font-size:16px;font-weight:500">Guardar cita</span>
+      </div>
+    </div>
+  )}
+</Device>
+
+<style>
+  .nm-sheet{animation:nible-sheet .28s cubic-bezier(.2,.7,.3,1) both}
+</style>

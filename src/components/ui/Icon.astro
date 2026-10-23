@@ -1,0 +1,16 @@
+---
+import { bold, broken } from '../../lib/icons';
+
+interface Props {
+  name: string;
+  variant?: 'broken' | 'bold';
+  size?: number;
+  class?: string;
+}
+
+/** Iconsax glyph. NIBLE uses `broken` for default UI and `bold` for active/selected. */
+const { name, variant = 'broken', size = 24, class: className } = Astro.props;
+const body = (variant === 'bold' ? bold[name] : broken[name]) ?? broken[name];
+if (!body) throw new Error(`Unknown icon: ${name}`);
+---
+<svg class:list={['icon', className]} width={size} height={size} viewBox="0 0 24 24" fill="none" aria-hidden="true" focusable="false" set:html={body} />

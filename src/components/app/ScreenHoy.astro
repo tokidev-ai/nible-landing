@@ -1,0 +1,67 @@
+---
+import Device from './Device.astro';
+import Icon from '../ui/Icon.astro';
+import { ST, TODAY } from './data';
+
+const kpis = [
+  { icon: 'calendar-tick', value: '8', label: 'citas hoy', bg: 'rgba(255,253,245,.10)', fg: '#FFFDF5', iconFg: '#93A9ED' },
+  { icon: 'coin', value: '420', label: 'Bs cobrados', bg: '#E7F1A8', fg: '#131C47', iconFg: '#9AAB47' },
+  { icon: 'clock', value: '5', label: 'cupos libres', bg: 'rgba(255,253,245,.10)', fg: '#FFFDF5', iconFg: '#93A9ED' },
+];
+---
+<Device tab="bHoy">
+  <div style="padding-bottom:28px">
+    <div style="position:relative;padding:14px 24px 26px;background:linear-gradient(160deg,#26356E 0%,#131C47 70%);border-radius:0 0 28px 28px;overflow:hidden">
+      <div style="position:relative;display:flex;align-items:center;gap:12px">
+        <span style="flex:1">
+          <span style="display:block;font-size:12px;color:#93A9ED">jueves 14 de mayo</span>
+          <span style="display:block;font-family:'Comfortaa',sans-serif;font-size:22px;font-weight:600;color:#FFFDF5">Barbería Central</span>
+        </span>
+        <span style="width:44px;height:44px;display:grid;place-items:center;border:1px solid rgba(255,253,245,.18);background:rgba(255,253,245,.10);border-radius:999px;color:#FFFDF5">
+          <Icon name="notification" size={20} />
+        </span>
+      </div>
+      <div style="position:relative;display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:20px">
+        {kpis.map((k) => (
+          <div style={`padding:14px 12px;border-radius:16px;background:${k.bg};color:${k.fg}`}>
+            <span style={`display:block;color:${k.iconFg}`}><Icon name={k.icon} variant="bold" size={18} /></span>
+            <span style="display:block;margin-top:8px;font-family:'Comfortaa',sans-serif;font-size:22px;font-weight:600">{k.value}</span>
+            <span style="display:block;font-size:11px;opacity:.8">{k.label}</span>
+          </div>
+        ))}
+      </div>
+    </div>
+
+    <div style="display:flex;align-items:baseline;justify-content:space-between;margin:22px 24px 12px">
+      <span style="white-space:nowrap;font-family:'Comfortaa',sans-serif;font-size:19px;font-weight:600;color:#131C47">Agenda de hoy</span>
+      <span style="color:#3E62D8;font-size:13px;font-weight:500">Ver semana</span>
+    </div>
+
+    <div style="display:flex;flex-direction:column;gap:10px;padding:0 24px">
+      {TODAY.map((a) => {
+        const s = ST[a.st];
+        return (
+          <div style="display:flex;gap:12px">
+            <span style="flex:0 0 auto;width:50px;padding-top:16px;font-family:'Comfortaa',sans-serif;font-size:14px;font-weight:600;color:#7B8299;text-align:right">{a.time}</span>
+            <span style={`flex:1;display:flex;align-items:center;gap:12px;padding:14px;border:1px solid #E1E4ED;border-left:4px solid ${s.accent};border-radius:16px;background:${a.st === 'done' ? '#FAF7EC' : '#FFFFFF'}`}>
+              <span style="flex:1;min-width:0">
+                <span style="display:block;font-size:15px;font-weight:500;color:#131C47">{a.client}</span>
+                <span style="display:block;font-size:13px;color:#7B8299;margin-top:2px">{a.service} · {a.dur}</span>
+              </span>
+              <span style="text-align:right">
+                <span style="white-space:nowrap;display:block;font-family:'Comfortaa',sans-serif;font-size:15px;font-weight:600;color:#131C47">Bs {a.price}</span>
+                <span style={`display:inline-block;margin-top:6px;padding:3px 9px;border-radius:999px;font-size:11px;font-weight:500;background:${s.bg};color:${s.fg}`}>{s.label}</span>
+              </span>
+            </span>
+          </div>
+        );
+      })}
+    </div>
+
+    <div style="display:flex;align-items:center;gap:12px;margin:16px 24px 0;padding:16px;border:1px dashed #C9CDDB;border-radius:20px">
+      <span style="width:40px;height:40px;display:grid;place-items:center;border-radius:12px;background:#F5F9DE;color:#9AAB47"><Icon name="clock" size={20} /></span>
+      <span style="flex:1;font-size:14px;color:#5A6180">Te quedan 5 cupos libres hoy</span>
+      <span style="height:40px;display:flex;align-items:center;padding:0 14px;border:1px solid #E1E4ED;border-radius:12px;background:#FFFFFF;color:#3E62D8;font-size:13px;font-weight:500">Bloquear</span>
+    </div>
+  </div>
+</Device>

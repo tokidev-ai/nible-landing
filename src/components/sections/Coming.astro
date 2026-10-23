@@ -1,0 +1,193 @@
+---
+import { Image } from 'astro:assets';
+import Icon from '../ui/Icon.astro';
+import logoWhite from '../../assets/logo-nible-white.png';
+
+// WhatsApp demo: `at` is the tick (1.1 s each, 14 per loop) when each message appears.
+const CHAT = [
+  { t: 'Hola, quiero reservar una cita en Barbería Central', me: true, at: 0, time: '21:14' },
+  { t: 'Hola Camila, soy Nible. ¿Qué servicio quieres?\n\n1. Corte clásico · Bs 45\n2. Corte + barba · Bs 60\n3. Perfilado de barba · Bs 30', me: false, at: 2, time: '21:14' },
+  { t: 'Corte + barba', me: true, at: 3, time: '21:15' },
+  { t: 'Perfecto. ¿Con quién te atiendes?\n\n1. Marco\n2. Luis\n3. Me da igual', me: false, at: 5, time: '21:15' },
+  { t: 'Con Marco', me: true, at: 6, time: '21:15' },
+  { t: 'Marco tiene libre mañana jueves a las 10:30 y a las 15:00. ¿Cuál te guardo?', me: false, at: 8, time: '21:15' },
+  { t: '10:30', me: true, at: 9, time: '21:16' },
+  { t: 'Listo, Camila.\nJueves 14 · 10:30\nCorte + barba con Marco · Bs 60\n\nTe envío el QR para el adelanto.', me: false, at: 11, time: '21:16' },
+];
+const TABS = [{ label: 'Agente de WhatsApp', icon: 'message-text' }, { label: 'Pagos por QR', icon: 'wallet-money' }];
+const QR_BULLETS = ['Funciona con la app de cualquier banco de Bolivia', 'Adelanto o pago completo, como prefieras', 'Menos citas perdidas y menos efectivo'];
+
+// Sample (non-scannable) 21×21 QR: three finder patterns plus seeded noise.
+const N = 21;
+let seed = 7;
+const rnd = () => (seed = (seed * 9301 + 49297) % 233280) / 233280;
+const finder = (r: number, c: number) => {
+  for (const [fr, fc] of [[0, 0], [0, 14], [14, 0]]) {
+    const y = r - fr, x = c - fc;
+    if (y >= 0 && y < 7 && x >= 0 && x < 7) {
+      const edge = y === 0 || y === 6 || x === 0 || x === 6;
+      const core = y >= 2 && y <= 4 && x >= 2 && x <= 4;
+      return edge || core ? 1 : 0;
+    }
+    if (y >= -1 && y <= 7 && x >= -1 && x <= 7) return 0;
+  }
+  return null;
+};
+const cells: [number, number][] = [];
+for (let r = 0; r < N; r++) for (let c = 0; c < N; c++) {
+  const fv = finder(r, c);
+  if (fv === null ? rnd() > 0.52 : fv) cells.push([c, r]);
+}
+const qrPath = cells.map(([x, y]) => `M${x} ${y}h1v1h-1z`).join('');
+---
+<section id="proximamente" class="container coming" data-screen-label="Próximamente">
+  <div class="head">
+    <span class="soon"><Icon name="flash" variant="bold" size={14} />Próximamente</span>
+    <h2 class="h2" data-reveal style="margin:0;max-width:620px">Lo que viene a Nible</h2>
+  </div>
+
+  <div data-prox data-tick="1100" data-loop="14">
+    <div class="tabs" role="tablist" aria-label="Próximas funciones" style="margin-top:32px">
+      {TABS.map((t, i) => (
+        <button type="button" role="tab" id={`prox-tab-${i}`} aria-controls={`prox-${i}`} aria-selected={i === 0 ? 'true' : 'false'} class:list={['tab', { 'is-on': i === 0 }]} data-go={i} style="--bar-ms:15400ms">
+          <Icon class="ic-off" name={t.icon} size={18} />
+          <Icon class="ic-on" name={t.icon} variant="bold" size={18} />
+          {t.label}
+          <span class="tab-bar" aria-hidden="true"></span>
+        </button>
+      ))}
+    </div>
+
+    <div class="deck" data-deck style="background:var(--navy-900)">
+      <div id="prox-0" role="tabpanel" aria-labelledby="prox-tab-0" class="slide is-on" data-slide data-bg="var(--navy-900)">
+        <div class="pattern" aria-hidden="true" style="background-size:200px"></div>
+        <div class="slide-grid">
+          <div class="copy">
+            <span class="ic ic-dark"><Icon name="message-text" variant="bold" size={24} /></span>
+            <h3 style="color:var(--nible-cream)">Tu agente de WhatsApp responde por ti</h3>
+            <p style="color:var(--blue-200)">Contesta preguntas, ofrece cupos libres y deja la cita agendada en el chat, aunque estés atendiendo.</p>
+          </div>
+
+          <div class="wa" role="img" aria-label="Ejemplo de conversación de WhatsApp: Camila reserva corte y barba con Marco para el jueves a las 10:30.">
+            <div class="wa-top" aria-hidden="true">
+              <Icon name="arrow-left-02" size={20} />
+              <span class="wa-avatar"><span class="wa-n"><Image src={logoWhite} alt="" height={20} densities={[1, 2]} format="webp" style="height:20px;width:auto;display:block;max-width:none" /></span></span>
+              <span style="flex:1;min-width:0">
+                <span class="wa-name">Nible</span>
+                <span class="wa-status" data-wa-status>en línea</span>
+              </span>
+              <Icon name="3-dots-more" size={20} />
+            </div>
+            <div class="wa-body" aria-hidden="true">
+              <span class="wa-day">Hoy</span>
+              {CHAT.map((m) => (
+                <div class:list={['msg', m.me ? 'me' : 'them']} data-at={m.at}>
+                  <span class="msg-t">{m.t}</span>
+                  <span class="msg-time">{m.time}</span>
+                </div>
+              ))}
+              <div class="typing" data-typing hidden>
+                <span style="animation-delay:0s"></span><span style="animation-delay:.15s"></span><span style="animation-delay:.3s"></span>
+              </div>
+            </div>
+            <div class="wa-bottom" aria-hidden="true">
+              <span class="wa-input">Mensaje</span>
+              <span class="wa-send"><Icon name="send-2" variant="bold" size={20} /></span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div id="prox-1" role="tabpanel" aria-labelledby="prox-tab-1" class="slide is-after" data-slide data-bg="var(--lime-300)">
+        <div class="slide-grid">
+          <div class="copy">
+            <span class="ic ic-light"><Icon name="wallet-money" size={24} /></span>
+            <h3>Cobra con QR al reservar</h3>
+            <p>Al reservar, tu cliente paga o deja un adelanto escaneando un QR con la app de su banco. El pago se confirma solo en la cita.</p>
+            <ul class="bullets">
+              {QR_BULLETS.map((b) => (
+                <li><Icon name="tick-circle" variant="bold" size={20} />{b}</li>
+              ))}
+            </ul>
+          </div>
+
+          <div class="qr-card" data-qr>
+            <span class="qr-tag"><span class="flag" role="img" aria-label="Bandera de Bolivia" style="width:16px;height:11px;border-radius:2px"><span></span><span></span><span></span></span>QR · Bolivia</span>
+            <span class="qr-for">Adelanto · Corte + barba con Marco</span>
+            <span class="qr-amount">Bs 20</span>
+            <div class="qr-box">
+              <svg viewBox={`0 0 ${N} ${N}`} width="100%" height="100%" shape-rendering="crispEdges" aria-hidden="true"><path d={qrPath} fill="var(--navy-900)" /></svg>
+              <span class="qr-logo"><span><Image src={logoWhite} alt="" height={14} densities={[1, 2]} format="webp" style="height:14px;width:auto;display:block;max-width:none" /></span></span>
+              <div class="qr-paid" aria-hidden="true">
+                <span class="qr-check"><Icon name="tick-circle" variant="bold" size={30} /></span>
+                <span style="font-size:15px;font-weight:600;color:var(--navy-900)">Pago recibido</span>
+              </div>
+            </div>
+            <span class="qr-hint qr-hint-wait"><Icon name="clock" size={16} />Escanea con tu banco boliviano</span>
+            <span class="qr-hint qr-hint-paid"><Icon name="tick-circle" size={16} />Cita confirmada con adelanto</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .coming{padding-top:clamp(56px,8vw,96px)}
+  .head{display:flex;flex-direction:column;gap:12px}
+  .soon{display:inline-flex;align-self:flex-start;align-items:center;gap:8px;padding:6px 12px;border-radius:999px;background:var(--navy-900);color:var(--nible-cream);font-size:12px;font-weight:600;white-space:nowrap}
+  .deck{position:relative;display:grid;margin-top:20px;border-radius:36px;transition:background .6s ease;overflow:hidden}
+  .slide{grid-area:1 / 1;position:relative;opacity:0;pointer-events:none;visibility:hidden;transition:opacity .5s ease,visibility 0s linear .5s}
+  .slide.is-on{opacity:1;pointer-events:auto;visibility:visible;transition:opacity .5s ease}
+  .slide-grid{position:relative;display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,300px),1fr));gap:clamp(28px,5vw,56px);align-items:center;padding:clamp(28px,5vw,56px)}
+  .copy{max-width:440px;transform:translateX(24px);transition:transform .6s cubic-bezier(.2,.7,.3,1)}
+  .is-before .copy{transform:translateX(-24px)}
+  .is-on .copy{transform:none}
+  .ic{display:inline-grid;place-items:center;width:48px;height:48px;border-radius:14px;color:var(--nible-lime)}
+  .ic-dark{background:rgba(255,253,245,.10)}
+  .ic-light{background:var(--navy-900)}
+  h3{margin:20px 0 0;font-family:var(--font-display);font-size:clamp(24px,3vw,34px);font-weight:700;line-height:1.16;color:var(--navy-900);text-wrap:balance}
+  .copy p{margin:12px 0 0;font-size:16px;line-height:1.65;color:var(--navy-700)}
+  .bullets{display:flex;flex-direction:column;gap:10px;margin:22px 0 0;padding:0;list-style:none}
+  .bullets li{display:flex;align-items:center;gap:10px;font-size:15px;color:var(--navy-900)}
+
+  /* WhatsApp mock */
+  .wa{position:relative;width:100%;max-width:360px;justify-self:center;border-radius:20px;overflow:hidden;background:#EFEAE2;box-shadow:0 10px 24px rgba(0,0,0,.25);font-family:var(--font-text)}
+  .wa-top{display:flex;align-items:center;gap:10px;height:56px;padding:0 14px;background:#008069;color:#FFFFFF}
+  .wa-avatar{flex:0 0 auto;width:38px;height:38px;display:grid;place-items:center;border-radius:999px;background:#131C47}
+  .wa-n{display:block;width:23px;height:20px;overflow:hidden}
+  .wa-name{display:block;font-size:15px;font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .wa-status{display:block;font-size:12px;opacity:.85;white-space:nowrap}
+  .wa-body{position:relative;height:380px;padding:12px 12px 10px;display:flex;flex-direction:column;justify-content:flex-end;gap:6px;overflow:hidden}
+  .wa-day{flex:0 0 auto;align-self:center;margin-bottom:4px;padding:4px 10px;border-radius:8px;background:#FFFFFF;color:#54656F;font-size:11px;box-shadow:0 1px .5px rgba(11,20,26,.13)}
+  .msg{position:relative;max-width:80%;padding:6px 9px;color:#111B21;box-shadow:0 1px .5px rgba(11,20,26,.13);flex:0 0 auto}
+  .msg.shown{animation:nible-rise .32s cubic-bezier(.2,.7,.3,1) both}
+  .msg[hidden]{display:none}
+  .msg.me{align-self:flex-end;border-radius:8px 0 8px 8px;background:#D9FDD3}
+  .msg.them{align-self:flex-start;border-radius:0 8px 8px 8px;background:#FFFFFF}
+  .msg-t{font-size:14px;line-height:1.4;white-space:pre-line}
+  .msg-time{float:right;margin:6px 0 -2px 10px;font-size:10.5px;color:#667781;white-space:nowrap}
+  .typing{flex:0 0 auto;align-self:flex-start;display:flex;gap:4px;padding:10px 12px;border-radius:0 8px 8px 8px;background:#FFFFFF;box-shadow:0 1px .5px rgba(11,20,26,.13);animation:nible-fade .2s ease both}
+  .typing[hidden]{display:none}
+  .typing span{width:7px;height:7px;border-radius:999px;background:#7B8299;animation:nible-dot 1s ease-in-out infinite}
+  .wa-bottom{display:flex;align-items:center;gap:8px;padding:8px 10px 10px}
+  .wa-input{flex:1;display:flex;align-items:center;height:42px;padding:0 14px;border-radius:999px;background:#FFFFFF;color:#8696A0;font-size:14px}
+  .wa-send{flex:0 0 auto;width:42px;height:42px;display:grid;place-items:center;border-radius:999px;background:#00A884;color:#FFFFFF}
+
+  /* QR payment card */
+  .qr-card{width:100%;max-width:340px;justify-self:center;padding:24px;border-radius:24px;background:#FFFFFF;box-shadow:var(--shadow-lg);text-align:center}
+  .qr-tag{display:inline-flex;align-items:center;gap:8px;margin-bottom:12px;padding:6px 12px;border-radius:999px;background:var(--grey-50);border:1px solid var(--border-subtle);font-size:12px;font-weight:600;color:var(--navy-900);white-space:nowrap}
+  .qr-for{display:block;font-size:13px;color:var(--navy-700)}
+  .qr-amount{display:block;margin-top:4px;font-family:var(--font-display);font-size:34px;font-weight:700;color:var(--navy-900);white-space:nowrap}
+  .qr-box{position:relative;width:196px;height:196px;margin:18px auto 0;padding:10px;border-radius:16px;border:1.5px solid var(--border-subtle);background:#FFFFFF}
+  .qr-box svg{display:block}
+  .qr-logo{position:absolute;left:50%;top:50%;width:40px;height:40px;margin:-20px 0 0 -20px;display:grid;place-items:center;border-radius:10px;background:var(--navy-900);box-shadow:0 0 0 4px #FFFFFF}
+  .qr-logo > span{display:block;width:16px;height:14px;overflow:hidden}
+  .qr-paid{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;border-radius:16px;background:rgba(255,255,255,.94);opacity:0;transition:opacity .4s ease}
+  .qr-check{display:grid;place-items:center;width:56px;height:56px;border-radius:999px;background:var(--green-100);color:var(--green-500);transform:scale(.6);transition:transform .45s cubic-bezier(.2,.7,.3,1)}
+  .qr-card.is-paid .qr-paid{opacity:1}
+  .qr-card.is-paid .qr-check{transform:none}
+  .qr-hint{display:flex;align-items:center;justify-content:center;gap:8px;margin-top:16px;font-size:13px;color:var(--navy-700);white-space:nowrap}
+  .qr-hint-paid,.qr-card.is-paid .qr-hint-wait{display:none}
+  .qr-card.is-paid .qr-hint-paid{display:flex}
+</style>

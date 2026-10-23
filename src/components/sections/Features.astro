@@ -1,0 +1,102 @@
+---
+import Icon from '../ui/Icon.astro';
+import ScreenAgenda from '../app/ScreenAgenda.astro';
+import ScreenLink from '../app/ScreenLink.astro';
+import ScreenCliente from '../app/ScreenCliente.astro';
+
+const F = [
+  { n: '01', screen: ScreenAgenda, icon: 'calendar', label: 'Agenda', bg: 'var(--lime-300)',
+    title: 'Tu agenda, con los huecos a la vista',
+    text: 'Ves el día hora por hora. Un cupo libre se toca y se agenda a mano, igual que en el cuaderno, para el cliente que llama o que llega sin reservar.',
+    bullets: ['Resumen del día: citas, cobrado y cupos libres', 'Estados por color: confirmada, pendiente, completada', 'Bloquea el almuerzo o un día en un toque'] },
+  { n: '02', screen: ScreenLink, icon: 'global', label: 'Link de reservas', bg: 'var(--blue-100)',
+    title: 'Un link para que te reserven solos',
+    text: 'Lo pones en tu WhatsApp e Instagram. Tus clientes ven tus servicios, precios y cupos libres, y reservan sin escribirte.',
+    bullets: ['Compártelo en WhatsApp, Instagram o un QR', 'Solo muestra los cupos dentro de tus horarios', 'Recordatorios automáticos para que nadie falte'] },
+  { n: '03', screen: ScreenCliente, icon: 'profile-2user', label: 'Clientes', bg: 'var(--lime-300)',
+    title: 'La memoria de tus clientes',
+    text: 'Cada reserva arma la ficha sola: cuántas veces vino, cuánto gastó y una nota de cómo le gusta. Lo que hoy vive en tu cabeza, guardado.',
+    bullets: ['Historial de visitas y servicios', 'Notas internas que solo ve tu equipo', 'Escríbele por WhatsApp desde la ficha'] },
+];
+---
+<section id="funciones" class="container feats-sec" data-screen-label="Funciones">
+  <span class="eyebrow" data-reveal>La app por dentro</span>
+  <h2 class="h2" data-reveal>Todo tu negocio en el bolsillo</h2>
+
+  <div class="carousel" data-carousel data-ms="6000" aria-roledescription="carrusel">
+    <div class="tabs" role="tablist" aria-label="Funciones">
+      {F.map((x, i) => (
+        <button type="button" role="tab" id={`feat-tab-${i}`} aria-controls={`feat-${i}`} aria-selected={i === 0 ? 'true' : 'false'} class:list={['tab', { 'is-on': i === 0 }]} data-go={i} style="--bar-ms:6000ms">
+          <Icon class="ic-off" name={x.icon} size={18} />
+          <Icon class="ic-on" name={x.icon} variant="bold" size={18} />
+          {x.label}
+          <span class="tab-bar" aria-hidden="true"></span>
+        </button>
+      ))}
+    </div>
+
+    <div class="deck" data-deck style={`background:${F[0].bg}`}>
+      {F.map((x, i) => {
+        const Screen = x.screen;
+        return (
+          <div id={`feat-${i}`} role="tabpanel" aria-labelledby={`feat-tab-${i}`} class:list={['slide', { 'is-on': i === 0, 'is-after': i > 0 }]} data-slide data-bg={x.bg}>
+            <div class="phone" aria-hidden="true" inert>
+              <div class="phone-box"><div class="phone-fit"><Screen /></div></div>
+            </div>
+            <div class="copy">
+              <span class="num">{x.n} / 03</span>
+              <h3>{x.title}</h3>
+              <p>{x.text}</p>
+              <ul class="bullets">
+                {x.bullets.map((b, k) => (
+                  <li style={`--d:${0.25 + k * 0.1}s`}>
+                    <span style="color:var(--blue-500)"><Icon name="tick-circle" variant="bold" size={20} /></span>
+                    {b}
+                  </li>
+                ))}
+              </ul>
+              <div class="arrows">
+                <button type="button" class="arrow prev" data-prev aria-label="Anterior"><Icon name="arrow-left-02" size={20} /></button>
+                <button type="button" class="arrow next" data-next aria-label="Siguiente"><Icon name="arrow-right-02" size={20} /></button>
+              </div>
+            </div>
+          </div>
+        );
+      })}
+    </div>
+  </div>
+</section>
+
+<style>
+  .feats-sec{padding-top:clamp(32px,5vw,56px);padding-bottom:clamp(32px,5vw,56px)}
+  .carousel{margin-top:clamp(32px,5vw,48px)}
+  .deck{position:relative;display:grid;margin-top:24px;border-radius:36px;transition:background .6s ease;overflow:hidden}
+  .slide{grid-area:1 / 1;display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,280px),1fr));gap:clamp(24px,5vw,64px);align-items:center;padding:clamp(28px,5vw,56px);opacity:0;pointer-events:none;visibility:hidden;transition:opacity .5s ease,visibility 0s linear .5s}
+  .slide.is-on{opacity:1;pointer-events:auto;visibility:visible;transition:opacity .5s ease}
+
+  .phone{display:flex;justify-content:center;transform:translateY(40px) rotate(4deg);transition:transform .7s cubic-bezier(.2,.7,.3,1)}
+  .is-before .phone{transform:translateY(40px) rotate(-4deg)}
+  .is-on .phone{transform:none}
+  .phone-box{width:273px;height:591px;pointer-events:none;filter:drop-shadow(0 18px 44px rgba(19,28,71,.18))}
+  .phone-fit{width:390px;height:844px;transform:scale(.7);transform-origin:top left}
+
+  .copy{max-width:460px;justify-self:center;transform:translateX(32px);transition:transform .6s cubic-bezier(.2,.7,.3,1) .08s}
+  .is-before .copy{transform:translateX(-32px)}
+  .is-on .copy{transform:none}
+  .num{font-family:var(--font-display);font-size:15px;font-weight:700;color:var(--blue-500)}
+  h3{margin:10px 0 0;font-family:var(--font-display);font-size:clamp(24px,3vw,34px);font-weight:700;line-height:1.16;color:var(--navy-900);text-wrap:balance}
+  .copy p{margin:14px 0 0;font-size:16px;line-height:1.65;color:var(--navy-700)}
+  .bullets{display:flex;flex-direction:column;gap:10px;margin:22px 0 0;padding:0;list-style:none}
+  .bullets li{display:flex;align-items:center;gap:10px;font-size:15px;color:var(--navy-900);opacity:0;transform:translateY(10px);transition:opacity .4s ease,transform .4s cubic-bezier(.2,.7,.3,1)}
+  .is-on .bullets li{opacity:1;transform:none;transition-delay:var(--d)}
+
+  .arrows{display:flex;gap:10px;margin-top:30px}
+  .arrow{width:48px;height:48px;display:grid;place-items:center;border-radius:999px;cursor:pointer;transition:transform .15s ease,border-color .15s ease}
+  .prev{border:1.5px solid var(--border-subtle);background:#FFFFFF;color:var(--navy-900)}
+  .prev:hover{transform:translateX(-2px);border-color:var(--navy-900)}
+  .next{border:0;background:var(--navy-900);color:var(--nible-cream)}
+  .next:hover{transform:translateX(2px)}
+  .arrow:active{transform:scale(.96)}
+
+  @media (max-width: 360px){ .phone-box{width:234px;height:507px} .phone-fit{transform:scale(.6)} }
+</style>

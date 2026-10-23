@@ -1,0 +1,95 @@
+---
+import Button from '../ui/Button.astro';
+import Icon from '../ui/Icon.astro';
+import IPhone from '../ui/IPhone.astro';
+import PhoneLayer from '../ui/PhoneLayer.astro';
+import ScreenOnboarding from '../app/ScreenOnboarding.astro';
+
+const S = [
+  { paso: 1, title: 'Cuéntanos de tu negocio', text: 'Nombre, rubro y zona. Tres campos y listo.', tap: [195, 598] },
+  { paso: 2, title: 'Marca tus servicios', text: 'Te sugerimos los de tu rubro; ajustas precio y duración.', tap: [350, 250] },
+  { paso: 4, title: 'Comparte tu link', text: 'Lo pegas en WhatsApp e Instagram y empiezan a llegar reservas.', tap: [335, 452] },
+] as const;
+---
+<section id="empezar" class="container steps-sec" data-screen-label="Cómo empezar">
+  <span class="eyebrow" data-reveal>Cómo empezar</span>
+  <h2 class="h2" data-reveal style="max-width:620px">Tres pasos y ya recibes reservas</h2>
+
+  <div class="panel" data-steps data-ms="4500" data-taps={JSON.stringify(S.map((s) => s.tap))}>
+    <div class="pattern" aria-hidden="true"></div>
+    <div class="grid">
+      <div class="left">
+        <ol class="list">
+          {S.map((s, i) => (
+            <li>
+              <button type="button" class:list={['step', { 'is-on': i === 0 }]} data-go={i} aria-pressed={i === 0 ? 'true' : 'false'}>
+                <span class="n">{i + 1}</span>
+                <span class="body">
+                  <h3>{s.title}</h3>
+                  <span class="text">{s.text}</span>
+                  <span class="track" aria-hidden="true"><span class="fill"></span></span>
+                </span>
+              </button>
+            </li>
+          ))}
+        </ol>
+        <div class="cta">
+          <Button href="#prueba" variant="accent" size="lg">Empezar ahora</Button>
+        </div>
+      </div>
+
+      <div class="right">
+        <div class="glow" aria-hidden="true"></div>
+        <div class="lift" data-lift>
+          <IPhone shadow="dark">
+            {S.map((s, i) => (
+              <PhoneLayer motion="slide" active={i === 0}><ScreenOnboarding paso={s.paso} /></PhoneLayer>
+            ))}
+            <span class="tap" data-tap></span>
+          </IPhone>
+        </div>
+        <div class="link-chip" data-chip aria-hidden="true">
+          <Icon name="global" variant="bold" size={18} />
+          <span>nible.bo/barberia-central</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .steps-sec{padding-top:clamp(40px,6vw,72px);padding-bottom:clamp(40px,6vw,72px)}
+  .panel{position:relative;margin-top:40px;border-radius:36px;background:var(--gradient-navy);overflow:hidden}
+  .grid{position:relative;display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,320px),1fr));gap:clamp(32px,5vw,64px);align-items:center;padding:clamp(32px,5vw,64px)}
+  .left{display:flex;flex-direction:column;gap:6px}
+  .list{display:flex;flex-direction:column;gap:6px;margin:0;padding:0;list-style:none}
+  .step{position:relative;width:100%;display:flex;gap:18px;padding:20px 20px 20px 18px;border:0;border-radius:20px;background:transparent;cursor:pointer;text-align:left;font-family:var(--font-text);transition:background .4s ease}
+  .step.is-on{background:rgba(255,253,245,.08)}
+  .n{position:relative;flex:0 0 auto;width:44px;height:44px;display:grid;place-items:center;border-radius:999px;background:rgba(255,253,245,.10);color:var(--nible-cream);font-family:var(--font-display);font-size:16px;font-weight:700;transition:background .4s ease,color .4s ease}
+  .step.is-on .n,.step.is-done .n{background:var(--nible-lime);color:var(--navy-900)}
+  .body{flex:1;min-width:0}
+  h3{display:block;margin:0;font-family:var(--font-display);font-size:20px;font-weight:600;line-height:normal;letter-spacing:normal;color:var(--nible-cream)}
+  .text{display:block;margin-top:6px;font-size:15px;line-height:1.6;color:var(--blue-200);opacity:.55;transition:opacity .4s ease}
+  .step.is-on .text{opacity:1}
+  .track{display:block;margin-top:14px;height:3px;border-radius:999px;background:rgba(255,253,245,.12);overflow:hidden}
+  .fill{display:block;height:100%;border-radius:999px;background:var(--nible-lime);transform-origin:left;transform:scaleX(0)}
+  .step.is-done .fill{transform:scaleX(1)}
+  .step.is-on .fill.run{animation:nible-bar 4500ms linear both}
+  .cta{margin-top:20px;padding-left:18px}
+
+  .right{position:relative;display:flex;justify-content:center;min-height:640px;align-items:center}
+  .glow{position:absolute;width:420px;height:420px;border-radius:999px;background:radial-gradient(closest-side,rgba(62,98,216,.45),transparent)}
+  .lift{position:relative;transition:transform .7s cubic-bezier(.2,.7,.3,1)}
+  .lift.up{transform:translateY(-8px)}
+  .tap{position:absolute;left:0;top:0;width:44px;height:44px;border-radius:999px;background:rgba(62,98,216,.22);border:2px solid rgba(62,98,216,.55);z-index:5;opacity:0}
+  .tap.run{animation:nible-tap 4500ms cubic-bezier(.2,.7,.3,1) both}
+  .link-chip{position:absolute;right:0;bottom:90px;display:flex;align-items:center;gap:10px;padding:12px 14px;border-radius:16px;background:var(--nible-lime);color:var(--navy-900);box-shadow:var(--shadow-md);opacity:0;transform:translateY(12px) scale(.94);transition:opacity .4s ease .3s,transform .5s cubic-bezier(.2,.7,.3,1) .3s}
+  .link-chip.is-on{opacity:1;transform:none}
+  .link-chip span{font-size:13px;font-weight:600;white-space:nowrap}
+
+  /* Narrow phones: the 303px iPhone is wider than the panel's content box */
+  @media (max-width: 400px){
+    .right{min-height:560px}
+    .lift{scale:.86}
+  }
+</style>

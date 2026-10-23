@@ -1,0 +1,18 @@
+---
+import { Image } from 'astro:assets';
+import dark from '../../assets/logo-nible-dark.png';
+import white from '../../assets/logo-nible-white.png';
+
+interface Props {
+  variant?: 'dark' | 'white';
+  /** Box height including the brand clear space, as in the design system Logo. */
+  height: number;
+  loading?: 'eager' | 'lazy';
+}
+
+/** NIBLE imagotipo. Never rotate, recolor, or decompose it (brand book p.10). */
+const { variant = 'dark', height, loading = 'lazy' } = Astro.props;
+const src = variant === 'white' ? white : dark;
+const glyph = height - 8; // 0.25em clear space on each side at 16px
+---
+<Image src={src} alt="NIBLE" height={glyph} densities={[1, 2]} format="webp" loading={loading} style={`height:${height}px;width:auto;display:block;padding:var(--logo-clearspace);box-sizing:border-box`} />

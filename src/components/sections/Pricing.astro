@@ -1,0 +1,94 @@
+---
+import Button from '../ui/Button.astro';
+import Icon from '../ui/Icon.astro';
+import { PRICES } from '../../config';
+
+const FREE = ['Reservas', 'Link de reservas', 'Servicios', '1 usuario'];
+const PRO = [{ icon: 'message-text', t: 'Agente de WhatsApp' }, { icon: 'profile-2user', t: 'Gestión de equipos' }, { icon: 'shield-tick', t: 'Soporte 24/7' }];
+const MAX = [{ icon: 'verify', t: 'WhatsApp Business propio' }, { icon: 'shop', t: 'Múltiples negocios' }];
+---
+<section id="precios" class="container pricing" data-screen-label="Precios">
+  <div style="text-align:center">
+    <span class="eyebrow" data-reveal>Precios</span>
+    <h2 class="h2" data-reveal style="margin:12px auto 0;max-width:560px">Empieza gratis, crece cuando quieras</h2>
+  </div>
+
+  <div class="plans">
+    <article class="plan plan-free" data-reveal>
+      <h3 class="name">Gratis</h3>
+      <span class="desc">Para empezar a recibir reservas hoy</span>
+      <div class="price"><span class="amount">{PRICES.free}</span><span class="per">para siempre</span></div>
+      <ul class="feats">
+        {FREE.map((p) => <li><span style="color:var(--blue-500)"><Icon name="tick-circle" variant="bold" size={20} /></span>{p}</li>)}
+      </ul>
+      <Button href="#prueba" variant="outline" size="lg" fullWidth>Empezar gratis</Button>
+    </article>
+
+    <article class="plan plan-pro" data-reveal aria-labelledby="plan-pro">
+      <div class="pattern" aria-hidden="true" style="background-size:200px"></div>
+      <div class="veil veil-navy">
+        <span class="soon soon-lime"><Icon name="clock" variant="bold" size={16} />Próximamente</span>
+        <h3 id="plan-pro" class="name" style="color:var(--nible-cream)">Pro</h3>
+        <span class="veil-text" style="color:var(--nible-cream)">Agente de WhatsApp, gestión de equipos y soporte 24/7</span>
+      </div>
+      <div class="behind" aria-hidden="true" inert>
+        <div style="display:flex;align-items:center;justify-content:space-between;gap:12px">
+          <span class="name" style="color:var(--nible-cream)">Pro</span>
+          <span class="rec">Recomendado</span>
+        </div>
+        <span class="desc" style="color:var(--blue-200)">Para negocios con equipo que no quieren perder ni una cita</span>
+        <div class="price"><span class="amount" style="color:var(--nible-cream)">{PRICES.pro}</span><span class="per" style="color:var(--blue-200)">por mes</span></div>
+        <ul class="feats" style="border-top-color:rgba(255,253,245,.14)">
+          <li class="note" style="color:var(--blue-200)">Todo lo de Gratis, más:</li>
+          {PRO.map((p) => <li style="color:var(--nible-cream)"><span style="color:var(--nible-lime)"><Icon name={p.icon} variant="bold" size={20} /></span>{p.t}</li>)}
+        </ul>
+        <Button href="#prueba" variant="accent" size="lg" fullWidth>Quiero Pro</Button>
+      </div>
+    </article>
+
+    <article class="plan plan-max" data-reveal aria-labelledby="plan-max">
+      <div class="veil veil-lime">
+        <span class="soon soon-navy"><Icon name="clock" variant="bold" size={16} />Próximamente</span>
+        <h3 id="plan-max" class="name">Pro Max</h3>
+        <span class="veil-text">WhatsApp Business propio y múltiples negocios en una cuenta</span>
+      </div>
+      <div class="behind" aria-hidden="true" inert>
+        <span class="name">Pro Max</span>
+        <span class="desc">Para marcas con varios locales y su propio canal</span>
+        <div class="price"><span class="amount">{PRICES.proMax}</span><span class="per" style="color:var(--navy-700)">por mes</span></div>
+        <ul class="feats" style="border-top-color:var(--lime-500)">
+          <li class="note" style="color:var(--navy-700)">Todo lo de Pro, más:</li>
+          {MAX.map((p) => <li><span style="color:var(--navy-900)"><Icon name={p.icon} variant="bold" size={20} /></span>{p.t}</li>)}
+        </ul>
+        <Button href="#prueba" variant="secondary" size="lg" fullWidth>Quiero Pro Max</Button>
+      </div>
+    </article>
+  </div>
+</section>
+
+<style>
+  .pricing{padding-top:clamp(56px,8vw,96px);padding-bottom:clamp(32px,5vw,56px)}
+  .plans{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,240px),1fr));gap:16px;margin-top:44px;align-items:stretch}
+  .plan{position:relative;display:flex;flex-direction:column;padding:clamp(28px,4vw,36px);border-radius:28px;overflow:hidden}
+  .plan-free{background:#FFFFFF;border:1px solid var(--border-subtle);box-shadow:var(--shadow-sm);overflow:visible;transition:transform .25s cubic-bezier(.2,.7,.3,1),box-shadow .25s ease}
+  .plan-free:hover{transform:translateY(-4px);box-shadow:var(--shadow-lg)}
+  .plan-pro{background:var(--gradient-navy);box-shadow:var(--shadow-lg)}
+  .plan-max{background:var(--lime-300);border:1px solid var(--lime-400)}
+  .behind{position:relative;display:flex;flex-direction:column;flex:1}
+  .name{display:block;margin:0;font-family:var(--font-display);font-size:22px;font-weight:700;line-height:1.6;letter-spacing:normal;color:var(--navy-900)}
+  .desc{display:block;margin-top:6px;font-size:14px;color:var(--navy-700)}
+  .price{display:flex;align-items:baseline;gap:6px;margin-top:22px}
+  .amount{font-family:var(--font-display);font-size:clamp(34px,3.6vw,44px);font-weight:700;color:var(--navy-900);white-space:nowrap}
+  .per{font-size:14px;color:var(--text-muted)}
+  .feats{display:flex;flex-direction:column;gap:14px;margin:26px 0 30px;padding:24px 0 0;list-style:none;border-top:1px solid var(--border-subtle);flex:1}
+  .feats li{display:flex;align-items:center;gap:12px;font-size:15px;color:var(--navy-900)}
+  .feats li.note{font-size:13px}
+  .rec{padding:5px 12px;border-radius:999px;background:var(--nible-lime);color:var(--navy-900);font-size:12px;font-weight:600;white-space:nowrap}
+  .veil{position:absolute;inset:0;z-index:2;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;padding:24px;text-align:center;backdrop-filter:blur(7px);-webkit-backdrop-filter:blur(7px)}
+  .veil-navy{background:rgba(19,28,71,.35)}
+  .veil-lime{background:rgba(239,246,199,.35)}
+  .veil-text{max-width:220px;font-size:14px;line-height:1.5;color:var(--navy-900)}
+  .soon{display:inline-flex;align-items:center;gap:8px;padding:8px 16px;border-radius:999px;font-size:13px;font-weight:600;white-space:nowrap;box-shadow:var(--shadow-md)}
+  .soon-lime{background:var(--nible-lime);color:var(--navy-900)}
+  .soon-navy{background:var(--navy-900);color:var(--nible-cream)}
+</style>

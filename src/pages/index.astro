@@ -1,0 +1,38 @@
+---
+import Base from '../layouts/Base.astro';
+import Header from '../components/sections/Header.astro';
+import Hero from '../components/sections/Hero.astro';
+import Rubros from '../components/sections/Rubros.astro';
+import Features from '../components/sections/Features.astro';
+import MoreList from '../components/sections/MoreList.astro';
+import Steps from '../components/sections/Steps.astro';
+import Coming from '../components/sections/Coming.astro';
+import Pricing from '../components/sections/Pricing.astro';
+import Signup from '../components/sections/Signup.astro';
+import Faq from '../components/sections/Faq.astro';
+import Footer from '../components/sections/Footer.astro';
+---
+<Base
+  title="Nible · Agenda y reservas online para tu negocio, hecho en Bolivia"
+  description="Tus clientes reservan solos desde tu link, a cualquier hora. Agenda, link de reservas y ficha de clientes para barberías, salones y consultorios en Bolivia. Plan Gratis para siempre."
+>
+  <div class="page">
+    <Header />
+    <main>
+      <Hero />
+      <Rubros />
+      <Features />
+      <MoreList />
+      <Steps />
+      <Coming />
+      <Pricing />
+      <Signup />
+      <Faq />
+    </main>
+    <Footer />
+  </div>
+  <script>
+    import { initLanding } from '../scripts/landing';
+    initLanding();
+  </script>
+</Base>

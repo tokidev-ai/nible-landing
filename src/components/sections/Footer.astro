@@ -1,0 +1,23 @@
+---
+import Logo from '../ui/Logo.astro';
+---
+<footer class="footer">
+  <div class="container inner">
+    <Logo height={22} />
+    <nav aria-label="Legal">
+      <a href="#">Términos</a>
+      <a href="#">Privacidad</a>
+      <a href="#">Contacto</a>
+    </nav>
+    <span class="copy">NIBLE 2026 · Hecho en Bolivia por Pomlab</span>
+  </div>
+</footer>
+
+<style>
+  .footer{border-top:1px solid var(--border-subtle)}
+  .inner{padding-top:28px;padding-bottom:28px;display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:16px}
+  nav{display:flex;flex-wrap:wrap;gap:20px;font-size:13px}
+  nav a{color:var(--navy-700);transition:color .15s ease}
+  nav a:hover{color:var(--blue-500)}
+  .copy{font-size:13px;color:var(--text-muted)}
+</style>
