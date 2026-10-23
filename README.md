@@ -24,3 +24,10 @@ Needs Node 22.12 or newer.
 ## SEO
 
 Spanish (`es-BO`) metadata, canonical URL, Open Graph, `SoftwareApplication` + `FAQPage` JSON-LD, `sitemap.xml` and `robots.txt` generated from `SITE_URL`. Logos are served as resized WebP.
+
+## Deploy (Firebase Hosting)
+
+The site deploys to the Firebase project `nible-landing` (see `.firebaserc`).
+
+- **Automatic:** `.github/workflows/firebase-hosting.yml` builds and deploys on every push to `main`, and publishes a preview channel for each pull request. It needs a repository secret `FIREBASE_SERVICE_ACCOUNT_NIBLE_LANDING` that holds a service-account JSON key with the *Firebase Hosting Admin* role. Running `firebase init hosting:github` creates the key and the secret for you.
+- **Manual:** `npm run build && npx firebase-tools deploy --only hosting`
