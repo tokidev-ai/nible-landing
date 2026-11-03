@@ -26,7 +26,7 @@ const label = 'display:block;font-size:13px;font-weight:500;color:#3E4463';
         Nueva cita
       </span>
     </div>
-    <p style="margin:6px 24px 0;font-size:14px;color:#7B8299">Mayo 2026</p>
+    <p style="margin:6px 24px 0;font-size:14px;color:#5A6180">Mayo 2026</p>
     <div style="display:flex;gap:8px;margin-top:16px;padding:0 24px 4px;overflow:hidden">
       {DAYS.map((d) => {
         const on = d.day === 14;
@@ -46,7 +46,7 @@ const label = 'display:block;font-size:13px;font-weight:500;color:#3E4463';
           <span style="flex:0 0 auto;width:50px;padding-top:10px;font-family:'Comfortaa',sans-serif;font-size:13px;font-weight:600;color:#A2A8BE;text-align:right">{r.time}</span>
           <span style={`flex:1;margin-bottom:8px;padding:${r.free ? '12px 14px' : '14px'};border:1px ${r.free ? 'dashed' : 'solid'} #E1E4ED;border-radius:14px;background:${r.free ? 'transparent' : '#FFFFFF'};color:${r.free ? '#A2A8BE' : '#131C47'};font-size:14px`}>
             <span style={`display:block;font-weight:${r.free ? 400 : 500}`}>{r.title}</span>
-            <span style="display:block;font-size:12px;color:#7B8299;margin-top:2px">{r.sub}</span>
+            <span style="display:block;font-size:12px;color:#5A6180;margin-top:2px">{r.sub}</span>
           </span>
         </div>
       ))}
