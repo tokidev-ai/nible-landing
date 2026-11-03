@@ -15,3 +15,15 @@ export const PRICES = {
   pro: 'Bs —',
   proMax: 'Bs —',
 };
+
+/** Contact email. When set, the footer shows "Contacto" (mailto) and the Organization schema gets a ContactPoint. */
+export const CONTACT_EMAIL: string = '';
+
+/** Legal pages. A footer link is only rendered when its URL is set (no dead "#" links). */
+export const LEGAL_URLS = {
+  terms: '',
+  privacy: '',
+};
+
+/** Public brand profiles (Instagram, Facebook, LinkedIn, WhatsApp…). Used for `sameAs` in the Organization schema. */
+export const SOCIAL_LINKS: string[] = [];
