@@ -42,11 +42,11 @@ const kpis = [
         const s = ST[a.st];
         return (
           <div style="display:flex;gap:12px">
-            <span style="flex:0 0 auto;width:50px;padding-top:16px;font-family:'Comfortaa',sans-serif;font-size:14px;font-weight:600;color:#7B8299;text-align:right">{a.time}</span>
+            <span style="flex:0 0 auto;width:50px;padding-top:16px;font-family:'Comfortaa',sans-serif;font-size:14px;font-weight:600;color:#5A6180;text-align:right">{a.time}</span>
             <span style={`flex:1;display:flex;align-items:center;gap:12px;padding:14px;border:1px solid #E1E4ED;border-left:4px solid ${s.accent};border-radius:16px;background:${a.st === 'done' ? '#FAF7EC' : '#FFFFFF'}`}>
               <span style="flex:1;min-width:0">
                 <span style="display:block;font-size:15px;font-weight:500;color:#131C47">{a.client}</span>
-                <span style="display:block;font-size:13px;color:#7B8299;margin-top:2px">{a.service} · {a.dur}</span>
+                <span style="display:block;font-size:13px;color:#5A6180;margin-top:2px">{a.service} · {a.dur}</span>
               </span>
               <span style="text-align:right">
                 <span style="white-space:nowrap;display:block;font-family:'Comfortaa',sans-serif;font-size:15px;font-weight:600;color:#131C47">Bs {a.price}</span>

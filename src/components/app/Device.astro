@@ -29,7 +29,7 @@ const tabs = [
       {tabs.map((t) => {
         const on = t.key === tab;
         return (
-          <span style={`flex:1;display:flex;flex-direction:column;align-items:center;gap:4px;padding:8px 0;color:${on ? '#3E62D8' : '#7B8299'}`}>
+          <span style={`flex:1;display:flex;flex-direction:column;align-items:center;gap:4px;padding:8px 0;color:${on ? '#3E62D8' : '#5A6180'}`}>
             <Icon name={t.icon} variant={on ? 'bold' : 'broken'} size={24} />
             <span style={`font-size:11px;font-weight:${on ? 500 : 400}`}>{t.label}</span>
           </span>
