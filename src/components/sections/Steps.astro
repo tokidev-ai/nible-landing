@@ -4,12 +4,15 @@ import Icon from '../ui/Icon.astro';
 import IPhone from '../ui/IPhone.astro';
 import PhoneLayer from '../ui/PhoneLayer.astro';
 import ScreenOnboarding from '../app/ScreenOnboarding.astro';
+import { STEPS } from '../../lib/steps';
 
-const S = [
-  { paso: 1, title: 'Cuéntanos de tu negocio', text: 'Nombre, rubro y zona. Tres campos y listo.', tap: [195, 598] },
-  { paso: 2, title: 'Marca tus servicios', text: 'Te sugerimos los de tu rubro; ajustas precio y duración.', tap: [350, 250] },
-  { paso: 4, title: 'Comparte tu link', text: 'Lo pegas en WhatsApp e Instagram y empiezan a llegar reservas.', tap: [335, 452] },
+// Copy lives in lib/steps.ts (shared with the HowTo schema); here we add the demo phone data.
+const DEMO = [
+  { paso: 1, tap: [195, 598] },
+  { paso: 2, tap: [350, 250] },
+  { paso: 4, tap: [335, 452] },
 ] as const;
+const S = STEPS.map((step, i) => ({ ...step, ...DEMO[i] }));
 ---
 <section id="empezar" class="container steps-sec" data-screen-label="Cómo empezar">
   <span class="eyebrow" data-reveal>Cómo empezar</span>

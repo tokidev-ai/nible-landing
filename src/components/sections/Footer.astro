@@ -1,14 +1,21 @@
 ---
 import Logo from '../ui/Logo.astro';
+import { CONTACT_EMAIL, LEGAL_URLS } from '../../config';
+
+const links = [
+  { label: 'Términos', href: LEGAL_URLS.terms },
+  { label: 'Privacidad', href: LEGAL_URLS.privacy },
+  { label: 'Contacto', href: CONTACT_EMAIL ? `mailto:${CONTACT_EMAIL}` : '' },
+].filter((l) => l.href);
 ---
 <footer class="footer">
   <div class="container inner">
     <Logo height={22} />
-    <nav aria-label="Legal">
-      <a href="#">Términos</a>
-      <a href="#">Privacidad</a>
-      <a href="#">Contacto</a>
-    </nav>
+    {links.length > 0 && (
+      <nav aria-label="Legal">
+        {links.map((l) => <a href={l.href}>{l.label}</a>)}
+      </nav>
+    )}
     <span class="copy">NIBLE 2026 · Hecho en Bolivia por Pomlab</span>
   </div>
 </footer>
