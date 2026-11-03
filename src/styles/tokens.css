@@ -204,7 +204,7 @@
 /* Text */
 --text-strong:var(--navy-900);
 --text-body:var(--grey-700);
---text-muted:var(--grey-500);
+--text-muted:var(--grey-600);
 --text-subtle:var(--grey-400);
 --text-on-brand:var(--cream-100);
 --text-on-inverse:var(--cream-100);
