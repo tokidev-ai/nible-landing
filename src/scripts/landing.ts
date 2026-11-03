@@ -6,11 +6,10 @@ const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
 const $$ = <T extends Element = HTMLElement>(root: ParentNode, sel: string) => [...root.querySelectorAll(sel)] as T[];
 
-/** Restarts a CSS animation that is attached through `cls`. */
+/** Restarts a CSS animation that is attached through `cls`. Re-adds the class two frames later so no synchronous reflow is forced. */
 function replay(el: Element, cls = 'run') {
   el.classList.remove(cls);
-  void (el as HTMLElement).offsetWidth;
-  el.classList.add(cls);
+  requestAnimationFrame(() => requestAnimationFrame(() => el.classList.add(cls)));
 }
 
 /** Positions the simulated tap ring over an app coordinate and replays it. */
