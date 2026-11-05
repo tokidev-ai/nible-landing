@@ -1,6 +1,7 @@
 ---
 import Logo from '../ui/Logo.astro';
 import Button from '../ui/Button.astro';
+import { APP_URL } from '../../config';
 ---
 <header class="header">
   <div class="container inner">
@@ -9,7 +10,7 @@ import Button from '../ui/Button.astro';
       <a href="#funciones">Funciones</a>
       <a href="#empezar">Cómo empezar</a>
       <a href="#precios">Precios</a>
-      <Button href="#prueba" size="sm">Probar gratis</Button>
+      <Button href={APP_URL} size="sm">Probar gratis</Button>
     </nav>
   </div>
 </header>

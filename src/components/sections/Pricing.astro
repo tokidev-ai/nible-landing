@@ -1,7 +1,7 @@
 ---
 import Button from '../ui/Button.astro';
 import Icon from '../ui/Icon.astro';
-import { PRICES } from '../../config';
+import { APP_URL, PRICES } from '../../config';
 
 const FREE = ['Reservas', 'Link de reservas', 'Servicios', '1 usuario'];
 const PRO = [{ icon: 'message-text', t: 'Agente de WhatsApp' }, { icon: 'profile-2user', t: 'Gestión de equipos' }, { icon: 'shield-tick', t: 'Soporte 24/7' }];
@@ -21,7 +21,7 @@ const MAX = [{ icon: 'verify', t: 'WhatsApp Business propio' }, { icon: 'shop', 
       <ul class="feats">
         {FREE.map((p) => <li><span style="color:var(--blue-500)"><Icon name="tick-circle" variant="bold" size={20} /></span>{p}</li>)}
       </ul>
-      <Button href="#prueba" variant="outline" size="lg" fullWidth>Empezar gratis</Button>
+      <Button href={APP_URL} variant="outline" size="lg" fullWidth>Empezar gratis</Button>
     </article>
 
     <article class="plan plan-pro" data-reveal aria-labelledby="plan-pro">

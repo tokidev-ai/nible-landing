@@ -13,7 +13,7 @@ Needs Node 22.12 or newer.
 
 ## Where things are
 
-- `src/config.ts`: placeholders still open in the design: site URL, the app sign-up/login links (`#`) and the Pro / Pro Max prices (`Bs —`).
+- `src/config.ts`: placeholders still open in the design: site URL, `APP_URL` (`https://app.nible.pro`, used by all app links) and the Pro / Pro Max prices (`Bs —`).
 - `src/pages/index.astro`: page order. Each section is in `src/components/sections/`.
 - `src/components/app/`: static rebuilds of the Nible Mobile screens shown inside the phones (Hoy, Agenda + "Nueva cita" sheet, Link de reservas, Ficha de cliente, onboarding steps). They are decorative (`aria-hidden`, `inert`).
 - `src/components/ui/`: design-system primitives (Button, Icon, Logo) and the iPhone frame.

@@ -1,5 +1,6 @@
 ---
 import Button from '../ui/Button.astro';
+import { APP_URL } from '../../config';
 import Icon from '../ui/Icon.astro';
 import IPhone from '../ui/IPhone.astro';
 import PhoneLayer from '../ui/PhoneLayer.astro';
@@ -23,7 +24,7 @@ const DEMO = [
     <h1 data-reveal>Tu agenda se llena <span>mientras tú atiendes</span></h1>
     <p class="lead" data-reveal><strong>Nible es la app de agenda y reservas online para negocios en Bolivia.</strong> Tus clientes reservan solos desde tu link, a cualquier hora. Tú abres el celular y ya sabes quién viene, a qué hora y qué servicio.</p>
     <div class="cta" data-reveal>
-      <Button href="#prueba" size="lg">Probar gratis</Button>
+      <Button href={APP_URL} size="lg">Probar gratis</Button>
     </div>
     <div class="meta">
       <span>Lo configuras en menos de dos minutos</span>

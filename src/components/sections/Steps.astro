@@ -1,5 +1,6 @@
 ---
 import Button from '../ui/Button.astro';
+import { APP_URL } from '../../config';
 import Icon from '../ui/Icon.astro';
 import IPhone from '../ui/IPhone.astro';
 import PhoneLayer from '../ui/PhoneLayer.astro';
@@ -37,7 +38,7 @@ const S = STEPS.map((step, i) => ({ ...step, ...DEMO[i] }));
           ))}
         </ol>
         <div class="cta">
-          <Button href="#prueba" variant="accent" size="lg">Empezar ahora</Button>
+          <Button href={APP_URL} variant="accent" size="lg">Empezar ahora</Button>
         </div>
       </div>
 

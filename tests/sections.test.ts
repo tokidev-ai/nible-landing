@@ -13,13 +13,14 @@ import Signup from '../src/components/sections/Signup.astro';
 import Footer from '../src/components/sections/Footer.astro';
 import { FAQ } from '../src/lib/faq';
 import { STEPS } from '../src/lib/steps';
-import { PRICES } from '../src/config';
+import { APP_URL, PRICES } from '../src/config';
 
 describe('Header', () => {
   it('has main navigation and a CTA', async () => {
     const html = await render(Header);
     expect(html).toContain('aria-label="Principal"');
-    for (const h of ['#funciones', '#empezar', '#precios', '#prueba']) expect(html).toContain(`href="${h}"`);
+    for (const h of ['#funciones', '#empezar', '#precios']) expect(html).toContain(`href="${h}"`);
+    expect(html).toContain(`href="${APP_URL}"`);
     expect(html).toContain('Probar gratis');
   });
 });
