@@ -3,11 +3,14 @@
 /** Public URL of the landing. Used for canonical, Open Graph and the sitemap. */
 export const SITE_URL = 'https://nible.bo';
 
+/** The Nible app. Every sign-up / login / CTA link on the landing points here. */
+export const APP_URL = 'https://app.nible.pro';
+
 /** "Crear mi cuenta gratis" — sign-up in the Nible app. */
-export const APP_SIGNUP_URL = '#';
+export const APP_SIGNUP_URL = APP_URL;
 
 /** "Ingresa a la app" — login in the Nible app. */
-export const APP_LOGIN_URL = '#';
+export const APP_LOGIN_URL = APP_URL;
 
 /** Monthly prices. Pro and Pro Max are "Próximamente" and have no price yet. */
 export const PRICES = {
