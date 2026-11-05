@@ -2,7 +2,7 @@
 import '../styles/global.css';
 import { FAQ } from '../lib/faq';
 import { STEPS } from '../lib/steps';
-import { CONTACT_EMAIL, SOCIAL_LINKS } from '../config';
+import { APP_URL, CONTACT_EMAIL, GA_MEASUREMENT_ID, SOCIAL_LINKS } from '../config';
 
 interface Props {
   title: string;
@@ -16,6 +16,9 @@ const ogImage = new URL('/og-image.png', Astro.site).href;
 const ogAlt = 'Nible: agenda y reservas online para negocios en Bolivia';
 const logo = new URL('/apple-touch-icon.png', Astro.site).href;
 const orgId = `${origin}#organization`;
+
+const analytics = import.meta.env.PROD && !!GA_MEASUREMENT_ID;
+const appHost = new URL(APP_URL).hostname;
 
 const jsonLd = {
   '@context': 'https://schema.org',
@@ -116,6 +119,23 @@ const jsonLd = {
     <meta name="twitter:image:alt" content={ogAlt} />
 
     <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
+    {analytics && (
+      <>
+        <script is:inline async src={`https://www.googletagmanager.com/gtag/js?id=${GA_MEASUREMENT_ID}`}></script>
+        <script is:inline define:vars={{ gaId: GA_MEASUREMENT_ID, appHost }}>
+          window.dataLayer = window.dataLayer || [];
+          function gtag() { dataLayer.push(arguments); }
+          gtag('js', new Date());
+          gtag('config', gaId);
+          document.addEventListener('click', function (e) {
+            var a = e.target instanceof Element && e.target.closest('a[href]');
+            if (a && a.hostname === appHost) {
+              gtag('event', 'app_cta_click', { link_url: a.href, link_text: (a.textContent || '').trim().slice(0, 80), transport_type: 'beacon' });
+            }
+          });
+        </script>
+      </>
+    )}
   </head>
   <body>
     <slot />
