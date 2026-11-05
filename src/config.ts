@@ -6,6 +6,9 @@ export const SITE_URL = 'https://nible.bo';
 /** The Nible app. Every sign-up / login / CTA link on the landing points here. */
 export const APP_URL = 'https://app.nible.pro';
 
+/** Google Analytics 4 measurement ID. Override with PUBLIC_GA_ID. Only loaded in production builds. */
+export const GA_MEASUREMENT_ID: string = import.meta.env.PUBLIC_GA_ID ?? 'G-9020W2EHL7';
+
 /** "Crear mi cuenta gratis" — sign-up in the Nible app. */
 export const APP_SIGNUP_URL = APP_URL;
 
